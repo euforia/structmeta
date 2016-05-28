@@ -125,7 +125,7 @@ func ParseStructMetadata(f interface{}, tagname string, includeTagless bool) (sm
 			if parts := strings.Split(tag, ","); len(parts) > 0 {
 				fm.Key = parts[0]
 				fm.Args = parts[1:]
-
+				// Set key to field name if key is missing
 				if fm.Key == "" {
 					fm.Key = fm.Field
 				}
