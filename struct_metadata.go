@@ -6,28 +6,28 @@ import (
 	"strings"
 )
 
+// Holds information regarding a particular struct field
 type fieldMeta struct {
 	Field string
-	// This may need to be further evaluated if a pointer
+	// The interface value of the field. This may need to be further evaluated if a pointer
 	Value interface{}
 	// First element of tag
 	Key string
-	// remainder tag elements
+	// Remainder tag elements
 	Args []string
 	// Field type
 	Kind reflect.Kind
-	// The actualy type (when  a pointer)
+	// The actual type
 	Type reflect.Type
 }
 
-func (fm *fieldMeta) HasArg(arg string) (h bool) {
+func (fm *fieldMeta) HasArg(arg string) bool {
 	for _, v := range fm.Args {
 		if v == arg {
-			h = true
-			break
+			return true
 		}
 	}
-	return
+	return false
 }
 
 //
