@@ -73,3 +73,18 @@ func Test_StructMetadata(t *testing.T) {
 	b, _ := json.MarshalIndent(m, "", "  ")
 	t.Logf("%s\n", b)
 }
+
+func Test_StructMetadata_Slice(t *testing.T) {
+	f := TestAsset{
+		Status: "Received",
+		Name:   new(string),
+		Notes:  new(string),
+	}
+	*f.Name = "foo"
+	*f.Notes = "test note"
+
+	fs := []TestAsset{f}
+	m := ParseStructMetadata(&fs, testTagName, false)
+	fld := m.FieldByName("Id")
+	t.Log(fld.Key)
+}
