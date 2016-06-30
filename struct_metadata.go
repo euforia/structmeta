@@ -107,8 +107,20 @@ func (sm StructMetadata) Values() []interface{} {
 func ParseStructMetadata(f interface{}, tagname string, includeTagless bool) (sm StructMetadata) {
 	sm = StructMetadata{}
 
-	val := reflect.ValueOf(f).Elem()
+	typeOf := reflect.TypeOf(f)
+	var val reflect.Value
+	if typeOf.Elem().Kind() == reflect.Slice {
+		elem := typeOf.Elem().Elem()
+		// A new instane of type within slice
+		t := reflect.New(elem).Interface()
+		val = reflect.ValueOf(t).Elem()
+	} else {
+		val = reflect.ValueOf(f).Elem()
+	}
+
 	//name = val.Type().Name()
+	/*
+		elem = typeOf.Elem().Elem()*/
 
 	for i := 0; i < val.NumField(); i++ {
 		typeField := val.Type().Field(i)
